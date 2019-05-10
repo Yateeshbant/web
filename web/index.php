@@ -1,25 +1,14 @@
 <?php
+ 
+$conn = mysqli_connect("remotemysql.com", "Wox2VHeqfX", "9bcMKoUSKy", "Wox2VHeqfX");
+$result = mysqli_query($conn, "SELECT * FROM subs");
+$data = array();
+while ($row = mysqli_fetch_object($result))
+{
+    array_push($data, $row);
+}
+echo json_encode($data);
+exit();
 
-require('../vendor/autoload.php');
-
-$app = new Silex\Application();
-$app['debug'] = true;
-
-// Register the monolog logging service
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => 'php://stderr',
-));
-
-// Register view rendering
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
-
-// Our web handlers
-
-$app->get('/', function() use($app) {
-  $app['monolog']->addDebug('logging output.');
-  return $app['twig']->render('index.twig');
-});
-
-$app->run();
+ 
+ ?>
